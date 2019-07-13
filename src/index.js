@@ -4,9 +4,6 @@ import store, { setCoupons, setProducts } from './store';
 const root = document.querySelector('#root');
 ReactDOM.render(<hr />, root);
 
-store.dispatch(setProducts());
-store.dispatch(setCoupons());
-
 const mapper = ({ coupons, products })=> {
   const productMap = coupons.reduce((acc, coupon)=> {
     if(!acc[coupon.productId]){

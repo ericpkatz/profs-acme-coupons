@@ -19,7 +19,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "webpack",
-    "start:dev": "nodemon server.js --ignore src --ignore dist & npm run webpack -- --watch --mode=development"
+    "start:dev": "nodemon server.js --ignore src/ --ignore dist/ & npm run webpack -- --watch --mode=development"
   },
   "author": "",
   "license": "ISC",
