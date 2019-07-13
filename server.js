@@ -36,6 +36,7 @@ const syncAndSeed = async () => {
     const bazz = await Product.create({ name: 'bazz'});
     await Coupon.create({ name: '50% off foo', percentOff: 50, productId: foo.id });
     await Coupon.create({ name: '20% off bar', percentOff: 20, productId: bar.id });
+    await Coupon.create({ name: '30% off bar', percentOff: 30, productId: bar.id });
 }
 
 syncAndSeed();
@@ -51,6 +52,17 @@ app.use('/dist', express.static(path.join(__dirname, 'dist')));
 app.get('/api/products', async (req, res, next) => {
     try{
         res.send( await Product.findAll( { include: [ ] } ) );
+    }
+    catch(err){
+        next(err);
+    }
+})
+
+app.post('/api/products/:id/coupons', async (req, res, next) => {
+    try{
+        const product = await Product.findByPk(req.params.id);
+        const percentOff = Math.floor(Math.random()*30);
+        res.send( await Coupon.create({ productId: product.id, name: `${percentOff} off ${product.name}`, percentOff: percentOff}));
     }
     catch(err){
         next(err);

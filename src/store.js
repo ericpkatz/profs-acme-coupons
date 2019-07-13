@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const SET_COUPONS = 'SET_COUPONS';
 const SET_PRODUCTS = 'SET_PRODUCTS';
+const CREATE_COUPON = 'CREATE_COUPON';
 
 const productsReducer = (state = [], action)=> {
   switch(action.type){
@@ -17,6 +18,8 @@ const couponsReducer = (state = [], action)=> {
   switch(action.type){
     case SET_COUPONS:
       return action.coupons;
+    case CREATE_COUPON:
+      return [...state, action.coupon];
   }
   return state;
 };
@@ -36,6 +39,11 @@ const _setCoupons = (coupons)=> ({
   coupons
 });
 
+const _createCoupon = (coupon)=> ({
+  type: CREATE_COUPON,
+  coupon
+});
+
 const setProducts = ()=> {
   return async(dispatch)=> {
     const response = await axios.get('/api/products');
@@ -50,13 +58,15 @@ const setCoupons = ()=> {
   };
 };
 
+const createCoupon = (id)=> {
+  return async(dispatch)=> {
+    const response = await axios.post(`/api/products/${id}/coupons`);
+    return dispatch(_createCoupon(response.data));
+  };
+};
+
 
 const store = createStore(reducer, applyMiddleware(thunk));
 
-/*
-store.dispatch(_setCoupons([1, 2, 3]));
-store.dispatch(_setProducts([1, 2, 3]));
-*/
-
 export default store;
-export { setProducts, setCoupons };
+export { setProducts, setCoupons, createCoupon };
